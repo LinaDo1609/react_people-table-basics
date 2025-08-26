@@ -39,25 +39,46 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
               <th>Father</th>
             </tr>
           </thead>
-
           <tbody>
             {people?.map(person => {
-              const motherLink = people.find(
+              const found = people.find(
                 data => data.name === person.motherName,
-              )?.slug;
-
-              const fatherLink = people.find(
+              );
+              const foundDad = people.find(
                 data => data.name === person.fatherName,
-              )?.slug;
+              );
 
               return (
-                <PersonLink
-                  key={person.name}
-                  person={person}
-                  motherLink={motherLink}
-                  fatherLink={fatherLink}
-                  isSelected={person.slug === selectedUser}
-                />
+                <tr
+                  data-cy="person"
+                  key={person.slug}
+                  className={
+                    selectedUser === person.slug ? 'has-background-warning' : ''
+                  }
+                >
+                  <td>
+                    <PersonLink person={person} />
+                  </td>
+
+                  <td>{person.sex}</td>
+                  <td>{person.born}</td>
+                  <td>{person.died}</td>
+                  <td>
+                    {found ? (
+                      <PersonLink person={found} />
+                    ) : (
+                      person.motherName || '-'
+                    )}
+                  </td>
+
+                  <td>
+                    {foundDad ? (
+                      <PersonLink person={foundDad} />
+                    ) : (
+                      person.fatherName || '-'
+                    )}
+                  </td>
+                </tr>
               );
             })}
           </tbody>

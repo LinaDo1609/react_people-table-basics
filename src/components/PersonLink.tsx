@@ -13,53 +13,15 @@ type Person = {
 
 type Props = {
   person: Person;
-  motherLink: string | undefined;
-  fatherLink: string | undefined;
-  isSelected: boolean;
 };
 
-export const PersonLink: React.FC<Props> = ({
-  person,
-  motherLink,
-  fatherLink,
-  isSelected,
-}) => {
+export const PersonLink: React.FC<Props> = ({ person }) => {
   return (
-    <tr
-      data-cy="person"
-      key={person.name}
-      className={isSelected ? 'has-background-warning' : ''}
+    <NavLink
+      className={person.sex === 'f' ? 'has-text-danger' : ''}
+      to={`/people/${person.slug}`}
     >
-      <td>
-        <NavLink
-          className={person.sex === 'f' ? 'has-text-danger' : ''}
-          to={`/people/${person.slug}`}
-        >
-          {person.name}
-        </NavLink>
-      </td>
-
-      <td>{person.sex}</td>
-      <td>{person.born}</td>
-      <td>{person.died}</td>
-      <td>
-        {motherLink ? (
-          <NavLink className="has-text-danger" to={`/people/${motherLink}`}>
-            {person.motherName || '-'}
-          </NavLink>
-        ) : (
-          person.motherName || '-'
-        )}
-      </td>
-      <td>
-        {fatherLink ? (
-          <NavLink to={`/people/${fatherLink}`}>
-            {person.fatherName || '-'}
-          </NavLink>
-        ) : (
-          person.fatherName || '-'
-        )}
-      </td>
-    </tr>
+      {person.name}
+    </NavLink>
   );
 };
